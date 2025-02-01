@@ -219,3 +219,6 @@ go.work.sum
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+
+**/blaze.yaml
+**/.blaze_history
