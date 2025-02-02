@@ -13,7 +13,7 @@ install_docker() {
 }
 
 download_zip() {
-    curl -LO https://github.com/UCI-CCDC/CCDC/raw/refs/heads/master/linux-dev/linux-toolbox/graylog/graylog.zip
+    curl -LO https://github.com/UCI-CCDC/LOCS/raw/refs/heads/main/linux/linux-toolbox/graylog/graylog.zip
     unzip graylog.zip
     chown -R 1100:1100 .
 }
