@@ -27,6 +27,7 @@ flush() {
     iptables -X
 }
 
+
 setup_logging() {
     iptables -N INPUT_ACCEPT
     iptables -N OUTPUT_ACCEPT
@@ -35,18 +36,17 @@ setup_logging() {
     iptables -N OUTPUT_DROP
 
     iptables -A INPUT_ACCEPT -j LOG --log-prefix "[INPUT_ACCEPT]"
-    iptables -P INPUT_ACCEPT ACCEPT
+    iptables -A INPUT_ACCEPT -j ACCEPT
 
     iptables -A OUTPUT_ACCEPT -j LOG --log-prefix "[OUTPUT_ACCEPT]"
-    iptables -P OUTPUT_ACCEPT ACCEPT
+    iptables -A INPUT_ACCEPT -j ACCEPT
 
     iptables -A OUTPUT_DROP -j LOG --log-prefix "[OUTPUT_DROP]"
-    iptables -P OUTPUT_DROP DROP
+    iptables -A OUTPUT_DROP -j DROP
 
     iptables -A INPUT_DROP -j LOG --log-prefix "[INPUT_DROP]"
-    iptables -P INPUT_DROP DROP
+    iptables -A INPUT_DROP -j DROP
 }
-
 
 # Apply a firewall.
 # Parameters:
