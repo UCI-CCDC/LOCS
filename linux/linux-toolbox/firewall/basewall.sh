@@ -10,7 +10,7 @@ setup_logging() {
     iptables -A INPUT_ACCEPT -j ACCEPT
 
     iptables -A OUTPUT_ACCEPT -j LOG --log-prefix "[OUTPUT_ACCEPT]"
-    iptables -A INPUT_ACCEPT -j ACCEPT
+    iptables -A OUTPUT_ACCEPT -j ACCEPT
 
     iptables -A OUTPUT_DROP -j LOG --log-prefix "[OUTPUT_DROP]"
     iptables -A OUTPUT_DROP -j DROP
