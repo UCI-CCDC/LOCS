@@ -10,6 +10,7 @@ import json
 import prettytable
 from typing import Callable
 import paramiko
+import os
 
 
 class Host:
@@ -305,10 +306,58 @@ def upload_to_ips(local_path, remote_path, ips=None):
 
         else:
             printer.message(f"Host {ip} not found in {dominion.IP_USER_MAP}", dominion.ERROR)
-    
 
 
 
+
+
+def download(host: Host, local_path: str, remote_path: str):
+
+    ssh = get_ssh_client(host)
+    try:
+        with ssh.open_sftp() as sftp:
+            # Check if the remote path is a file or directory
+            try:
+                remote_stat = sftp.stat(remote_path)
+                
+                if remote_stat is not None and remote_stat.st_mode & 0o40000:  # Directory check (UNIX permission mode check)
+                    # It's a directory, download recursively
+                    local_dir = os.path.join(local_path, f"{host.name()}_{os.path.basename(remote_path)}")
+                    os.makedirs(local_dir, exist_ok=True)
+                    # Get the contents of the directory and download them
+                    for filename in sftp.listdir(remote_path):
+                        file_path = os.path.join(remote_path, filename)
+                        local_file_path = os.path.join(local_dir, filename)
+                        download(host, local_file_path, file_path)  # Recursive call for each file/folder
+                else:
+                    # It's a file, download it
+                    local_file_path = os.path.join(local_path, f"{host.name()}_{os.path.basename(remote_path)}")
+                    sftp.get(remote_path, local_file_path)
+                    printer.message(f'{remote_path} successfully downloaded from {host.name()} at {local_file_path}', dominion.SUCCESS)
+                
+            except FileNotFoundError:
+                print(f"File or directory not found: {remote_path}")
+                return
+            
+    except Exception as e:
+        printer.message(f'Error downloading file from {host.name()}: {e}', dominion.ERROR)
+    finally:
+        ssh.close()
+
+
+def download_from_ips(local_path, remote_path, ips=None):
+    data = read_all()
+
+    if not ips:
+        ips = data.keys()
+
+    for ip in ips:
+        if is_host_in_config(ip):
+            host = data[ip]
+            download(host, local_path, remote_path)
+
+        else:
+            printer.message(f"Host {ip} not found in {dominion.IP_USER_MAP}", dominion.ERROR)
 
 def get_ssh_client(host: Host):
     ssh = paramiko.SSHClient()

@@ -60,6 +60,10 @@ def main() -> None:
     parser.add_argument('-U', '--upload', help=f'upload file from local to remote host: -U=/local/path:/remote/path:192.168.220.12,192.168.220.13')
     parser.add_argument('-UA', '--upload-all', help=f'upload file from local on all remote hosts: -UA=/local/path:/remote/path')
     parser.add_argument('-UF', '--upload-firewall', help='upload firewall template on all moachines', action='store_true')    
+    
+    parser.add_argument('-DOWN', '--download', help=f'download file from remote host: -DOWN=/local/dir:/remote/path:192.168.220.12,192.168.220.13')
+    parser.add_argument('-DA', '--download-all', help=f'download file from all remote hosts: -DA=/local/dir:/remote/path')
+
 
     parser.add_argument('-A', '--add', help=f'Add host to {IP_USER_MAP}: -A=192.168.220.12:root:password', type=str)
     parser.add_argument('-C', '--clear', help=f'Clear log file at {LOG_FILE}', action='store_true')
@@ -173,6 +177,19 @@ def main() -> None:
 
         utils.upload_to_ips(firewall_template_local_path, firewall_template_remote_path)
         
+
+    if args.download:
+        arguments = args.upload.split(':')
+        local_path = arguments[0]
+        remote_path = arguments[1]
+        ips = arguments[2].split(',')
+        utils.download_from_ips(local_path, remote_path, ips)
+    
+    if args.download_all:
+        arguments = args.upload_all.split(':')
+        local_path = arguments[0]
+        remote_path = arguments[1]
+        utils.download_from_ips(local_path, remote_path)
 
     if args.banip:
         env_vars = utils.map_args_to_env_vars(args.banip)
