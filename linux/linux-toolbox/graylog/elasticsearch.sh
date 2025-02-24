@@ -1,17 +1,18 @@
 #!/bin/bash
+
 install_docker() {
-    if command -v docker && command -v docker-compose; then
-        return
-    else
+    if ! command -v docker; then
         # Install docker
         curl https://get.docker.com | sh
-        # Install docker-compose
+    fi
+
+    # Install docker-compose
+    if ! command -v docker-compose; then
         # Note: this assumes /usr/bin is in path
         curl -SL https://github.com/docker/compose/releases/download/v2.32.0/docker-compose-linux-x86_64 -o /usr/bin/docker-compose
         chmod +x /usr/bin/docker-compose
     fi
 }
-
 download_zip() {
     curl -LO https://github.com/UCI-CCDC/LOCS/raw/refs/heads/master/linux/linux-toolbox/graylog/elasticsearch.zip
     unzip elasticsearch.zip
