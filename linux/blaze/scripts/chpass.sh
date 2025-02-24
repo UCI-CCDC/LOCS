@@ -17,4 +17,5 @@ else
     exit 1
 fi
 
+echo "$PASS"
 exit 0
