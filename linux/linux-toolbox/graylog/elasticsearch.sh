@@ -14,9 +14,9 @@ install_docker() {
     fi
 }
 download_zip() {
-    curl -LO https://github.com/UCI-CCDC/LOCS/raw/refs/heads/master/linux/linux-toolbox/graylog/elasticsearch.zip
+    curl -LO https://github.com/UCI-CCDC/LOCS/raw/refs/heads/main/linux/linux-toolbox/graylog/elasticsearch.zip
     unzip elasticsearch.zip
-    chown -R 1100:1100 .
+    chown -R 1000:1000 .
 }
 
 if ! command -v curl || ! command -v unzip; then
