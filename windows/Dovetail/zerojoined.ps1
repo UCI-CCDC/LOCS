@@ -1,6 +1,6 @@
 if (Test-Path -Path "C:\zerojoined.txt") {
     Write-Host "Zerojoined already run..."
-    return
+    
 }
 
 
@@ -17,33 +17,27 @@ try {
 $Error.Clear()
 $ErrorActionPreference = "Continue"
 
-$php = Get-ChildItem -Path "C:\" -Filter "php.exe" -Recurse -ErrorAction SilentlyContinue |
-    ForEach-Object { & $_.FullName --ini | Out-String }
+if (Get-Command -Name Get-MpPreference -ErrorAction SilentlyContinue) {
+    Write-Host "Windows Defender exists."
+    try {
+        $mpPrefs = Get-MpPreference
 
-$ConfigFiles = @()
-foreach ($OutputLine in ($php -split "`r`n")) {
-    if ($OutputLine -match 'Loaded') {
-        $ConfigFiles += ($OutputLine -split "\s{9}")[1]
+        if ($mpPrefs.ExclusionProcess) { 
+            Remove-MpPreference -ExclusionProcess $mpPrefs.ExclusionProcess 
+        }
+        if ($mpPrefs.ExclusionPath) { 
+            Remove-MpPreference -ExclusionPath $mpPrefs.ExclusionPath 
+        }
+        if ($mpPrefs.ExclusionExtension) { 
+            Remove-MpPreference -ExclusionExtension $mpPrefs.ExclusionExtension 
+        }
+
+        Set-MpPreference -DisableRealtimeMonitoring $false
+    } catch {
+        Write-Output "Error configuring Windows Defender: $_"
     }
-}
-
-$ConfigString_DisableFuncs = "disable_functions=exec,passthru,shell_exec,system,proc_open,popen,curl_exec,curl_multi_exec,parse_ini_file,show_source"
-$ConfigString_FileUploads  = "file_uploads=off"
-
-foreach ($ConfigFile in $ConfigFiles) {
-    Add-Content $ConfigFile $ConfigString_DisableFuncs
-    Add-Content $ConfigFile $ConfigString_FileUploads
-    Write-Output "$Env:ComputerName [INFO] PHP functions disabled in $ConfigFile"
-}
-
-iisreset
-if ($Error[0]) {
-    Write-Output "`n#########################"
-    Write-Output "#        ERRORS         #"
-    Write-Output "#########################`n"
-    foreach ($err in $Error) {
-        Write-Output $err
-    }
+} else {
+    Write-Host "Windows Defender does not exist." -ForegroundColor Red
 }
 
 
