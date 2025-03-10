@@ -19,21 +19,29 @@ flush() {
     iptables-save > /root/iptables-$(date +%s).rules
     # Flush all rules and allow all connections by default
     iptables -P INPUT ACCEPT
-    iptables -P FORWARD ACCEPT
     iptables -P OUTPUT ACCEPT
+
 
     iptables -F INPUT
     iptables -F OUTPUT
-    iptables -X
+    iptables -F INPUT_ACCEPT
+    iptables -F INPUT_DROP
+    iptables -F OUTPUT_ACCEPT
+    iptables -F OUTPUT_DROP
+    iptables -F FORWARD_LOG
 }
 
 
 setup_logging() {
     iptables -N INPUT_ACCEPT
     iptables -N OUTPUT_ACCEPT
+    iptables -N FORWARD_LOG
 
     iptables -N INPUT_DROP
     iptables -N OUTPUT_DROP
+
+    # Don't actually to anything else but log
+    iptables -A FORWARD_LOG -j LOG --log-prefix "[FORWARD_LOG]"
 
     iptables -A INPUT_ACCEPT -j LOG --log-prefix "[INPUT_ACCEPT]"
     iptables -A INPUT_ACCEPT -j ACCEPT
@@ -66,25 +74,25 @@ apply() {
     iptables -P INPUT ACCEPT
     iptables -P OUTPUT ACCEPT
 
-    #setup_logging #ONLY DO THIS IF LOGGING IS NOT SETUP YET
+    setup_logging
 
-    iptables -A INPUT -j INPUT_ACCEPT
-
-    iptables -A OUTPUT -j OUTPUT_ACCEPT
-
-    
-    # examples:
-
+    iptables -A INPUT -i lo -j ACCEPT
+    iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
     # Allow SSH connections
-    #iptables -A INPUT -p tcp  -m multiport --dports 22,80 -j INPUT_ACCEPT
+    # iptables -A INPUT -p tcp -m multiport --dports 22,80 -j INPUT_ACCEPT
+    iptables -A INPUT -j INPUT_DROP
 
+    iptables -A OUTPUT -o lo -j ACCEPT
+    iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
     # LDAP / Kerberos
-    #iptables -A OUTPUT -p tcp -m multiport --dports 53,88,135,139,389,445,464,3268,3269 -j OUTPUT_ACCEPT
-    #iptables -A OUTPUT -p udp -m multiport --dports 53,135,138,445,464 -j OUTPUT_ACCEPT
-    
+    # iptables -A OUTPUT -p tcp -m multiport --dports 53,88,135,139,389,445,464,3268,3269 -d <dc> -j OUTPUT_ACCEPT
+    # iptables -A OUTPUT -p udp -m multiport --dports 53,135,138,445,464 -d <dc> -j OUTPUT_ACCEPT
+    iptables -A OUTPUT -j OUTPUT_DROP
 
+    iptables -I FORWARD 1 -j FORWARD_LOG
 
-
+    # NAT
+    # iptables -t nat -A PREROUTING -i <internal> -p tcp -m multiport --dports x,y,z -j REDIRECT --to-ports x
 }
 
 # Apply a firewall but allow incoming connections after a timeout to prevent lockouts.
@@ -93,14 +101,14 @@ apply() {
 test() {
     if [ -z "$1" ]
     then
-        timeout=180
-        echo "fw.sh: Setting timeout to default of 210 seconds"
+        timeout=10
+        echo "fw.sh: Setting timeout to default of 10 seconds"
     else
         timeout="$1"
         echo "fw.sh: Setting timeout to $timeout seconds"
     fi
 
-    apply "nohup sh -c 'sleep $timeout && iptables -P INPUT ACCEPT && iptables -P OUTPUT ACCEPT && iptables -P FORWARD ACCEPT' &"
+    apply "nohup sh -c 'sleep $timeout && iptables -D INPUT -j INPUT_DROP && iptables -D OUTPUT OUTPUT_DROP' &"
 }
 
 usage() {
@@ -110,6 +118,7 @@ usage() {
     echo '                     The timeout parameter is optional and defaults to 30 seconds.'
     echo '    apply - Apply the firewall permanently. Be careful with this option!'
     echo '            You should test the firewall with the `test` command first!'
+    echo '    flush - Flush the existing INPUT and OUTPUT chains.'
     exit 1
 }
 
@@ -119,6 +128,9 @@ then
 elif [ "apply" == "$1" ]
 then
     apply
+elif [ "flush" == "$1" ]
+then
+    flush
 else
     usage
 fi
