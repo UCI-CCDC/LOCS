@@ -80,14 +80,16 @@ apply() {
     iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
     # Allow SSH connections
     # iptables -A INPUT -p tcp -m multiport --dports 22,80 -j INPUT_ACCEPT
-    iptables -A INPUT -j INPUT_DROP
+    # iptables -A INPUT -j INPUT_DROP
+    iptables -A INPUT -j INPUT_ACCEPT
 
     iptables -A OUTPUT -o lo -j ACCEPT
     iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
     # LDAP / Kerberos
     # iptables -A OUTPUT -p tcp -m multiport --dports 53,88,135,139,389,445,464,3268,3269 -d <dc> -j OUTPUT_ACCEPT
     # iptables -A OUTPUT -p udp -m multiport --dports 53,135,138,445,464 -d <dc> -j OUTPUT_ACCEPT
-    iptables -A OUTPUT -j OUTPUT_DROP
+    # iptables -A OUTPUT -j OUTPUT_DROP
+    iptables -A OUTPUT -j OUTPUT_ACCEPT
 
     iptables -I FORWARD 1 -j FORWARD_LOG
 
