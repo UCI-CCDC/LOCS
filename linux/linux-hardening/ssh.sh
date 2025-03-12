@@ -30,6 +30,8 @@ echo "PubkeyAuthentication no" > /etc/ssh/sshd_config.d/dominion_ssh.conf
 echo "PermitEmptyPasswords no" >> /etc/ssh/sshd_config.d/dominion_ssh.conf
 echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config.d/dominion_ssh.conf
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/dominion_ssh.conf
+echo "UsePAM yes" >> /etc/ssh/sshd_config.d/dominion_ssh.conf
+
 
 if [ "$(tail -1 /etc/ssh/sshd_config.d/dominion_ssh.conf)" == "PermitRootLogin yes" ] && [ "$(head -1 /etc/ssh/sshd_config.d/dominion_ssh.conf)" == "PubkeyAuthentication no" ]; then
   echo "Successfully changed config files"
