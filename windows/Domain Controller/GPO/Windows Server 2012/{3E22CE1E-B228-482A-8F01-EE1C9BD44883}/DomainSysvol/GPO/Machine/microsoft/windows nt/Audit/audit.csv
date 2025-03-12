@@ -1,0 +1,3 @@
+Machine Name,Policy Target,Subcategory,Subcategory GUID,Inclusion Setting,Exclusion Setting,Setting Value
+,System,Audit Process Creation,{0cce922b-69ae-11d9-bed3-505054503030},Success and Failure,,3
+,System,Audit Filtering Platform Policy Change,{0cce9233-69ae-11d9-bed3-505054503030},Success and Failure,,3
