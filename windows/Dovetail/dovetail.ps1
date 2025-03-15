@@ -130,15 +130,17 @@ function Connect-WinRMPSSession {
             $global:Sessions += $session
             Write-Host "[INFO] Connected: $($WinRMAble.Computer)" -ForegroundColor Green
             if ($Rotate) {
-                Invoke-Command -Session $session -ScriptBlock {
+                $ipaddress = Invoke-Command -Session $session -ScriptBlock {
                     $domainRole = (Get-WmiObject Win32_ComputerSystem).DomainRole
+                    $ip = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -ne "127.0.0.1" } | Select-Object -ExpandProperty IPAddress) -join ","
                     if (($domainRole -eq 4 -or $domainRole -eq 5)){
                         Write-Host "THIS IS DC!!!!!" -ForegroundColor Red -BackgroundColor Yellow
                         Write-Host "THIS IS DC!!!!!" -ForegroundColor Red -BackgroundColor Yellow
                         Write-Host "THIS IS DC!!!!!" -ForegroundColor Red -BackgroundColor Yellow
                     }
+                    return $ip
                 }
-                $password_change = Read-Host "Do you want to change password? $($WinRMAble.Computer) (yes or no)"
+                $password_change = Read-Host "Do you want to change password? $ipaddress ($($WinRMAble.Computer)) (yes or no)"
                 if ($password_change -eq "yes") {
                     $password = Read-Host "Enter password for $($WinRMAble.Computer)"
                     Invoke-Command -Session $session -ScriptBlock {
@@ -152,20 +154,20 @@ function Connect-WinRMPSSession {
                 Invoke-Command -Session $session -ScriptBlock {
                     $domainRole = (Get-WmiObject Win32_ComputerSystem).DomainRole
                     if (!($domainRole -eq 4 -or $domainRole -eq 5)){
-                        $Name = Read-Host "Enter username for backup user for $($WinRMAble.Computer)"
+                        $Name = Read-Host "Enter username for backup user"
                         $params = @{
                             Name        = $Name
-                            Password    =  Read-Host "Enter password for backup user for $($WinRMAble.Computer)" -AsSecureString
+                            Password    =  Read-Host "Enter password for backup user" -AsSecureString
                         }
                         New-LocalUser @params
 
                         Add-LocalGroupMember -Group "Administrators" -Member $Name
                         Add-LocalGroupMember -Group "Remote Desktop Users" -Member $Name
                     } elseif (($domainRole -eq 4 -or $domainRole -eq 5)){
-                        $Name = Read-Host "Enter username for backup user for $($WinRMAble.Computer)"
+                        $Name = Read-Host "Enter username for backup user"
                         $params = @{
                             Name        = $Name
-                            Password    =  Read-Host "Enter password for backup user for $($WinRMAble.Computer)" -AsSecureString
+                            Password    =  Read-Host "Enter password for backup user" -AsSecureString
                         }
                         New-LocalUser @params
 

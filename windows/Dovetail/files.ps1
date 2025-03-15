@@ -54,8 +54,8 @@ icacls "C:\Windows\System32\cmd.exe" /reset
 takeown /F "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" /A
 icacls "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" /reset
 
-takeown /F "C:\Windows\System32\regedit.exe" /A
-icacls "C:\Windows\System32\regedit.exe" /reset
+takeown /F "C:\Windows\regedit.exe" /A
+icacls "C:\Windows\regedit.exe" /reset
 
 takeown /F "C:\Windows\System32\mmc.exe" /A
 icacls "C:\Windows\System32\mmc.exe" /reset
