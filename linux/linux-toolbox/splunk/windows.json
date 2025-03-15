@@ -1,0 +1,984 @@
+{
+    "title": "Windows",
+    "description": "",
+    "inputs": {
+        "input_global_trp": {
+            "options": {
+                "defaultValue": "-24h@h,now",
+                "token": "global_time"
+            },
+            "title": "Global Time Range",
+            "type": "input.timerange"
+        }
+    },
+    "defaults": {
+        "dataSources": {
+            "ds.search": {
+                "options": {
+                    "queryParameters": {
+                        "earliest": "$global_time.earliest$",
+                        "latest": "$global_time.latest$"
+                    }
+                }
+            }
+        }
+    },
+    "visualizations": {
+        "viz_3aPbB4C0": {
+            "dataSources": {
+                "primary": "ds_9PHKcs6k"
+            },
+            "title": "Powershell Script Executed",
+            "type": "splunk.events"
+        },
+        "viz_3p73Iye3": {
+            "dataSources": {
+                "primary": "ds_kXqGbMK5"
+            },
+            "description": "Logs all succesful logins, including the machine accounts.",
+            "title": "Succesful Login(All)",
+            "type": "splunk.table"
+        },
+        "viz_8JxMg3hf": {
+            "dataSources": {
+                "primary": "ds_jjWxZgcf"
+            },
+            "description": "",
+            "title": "Domain Account Deleted",
+            "type": "splunk.table"
+        },
+        "viz_8qgjjdrD": {
+            "containerOptions": {},
+            "context": {},
+            "dataSources": {
+                "primary": "ds_L5DklzcC"
+            },
+            "description": "Possible threat actor persistence detection",
+            "options": {},
+            "showLastUpdated": false,
+            "showProgressBar": false,
+            "title": "Registry Editors Used",
+            "type": "splunk.events"
+        },
+        "viz_G2vGpuao": {
+            "dataSources": {
+                "primary": "ds_KmIYLAly"
+            },
+            "title": "Process Creation",
+            "type": "splunk.table"
+        },
+        "viz_GMoF3UPW": {
+            "dataSources": {
+                "primary": "ds_QJAPtQxB"
+            },
+            "title": "User Removed from Local Security Group",
+            "type": "splunk.table"
+        },
+        "viz_GRkgURuZ": {
+            "dataSources": {
+                "primary": "ds_iOasaxk4"
+            },
+            "description": "Records all failed logins by the administrator",
+            "title": "Failed Logins(Admin)",
+            "type": "splunk.table"
+        },
+        "viz_I4kIBhhs": {
+            "dataSources": {
+                "primary": "ds_BE7eYAY9"
+            },
+            "description": "This logs succesful login by any human user(including the administrator)",
+            "title": "Succesful Login(Users)",
+            "type": "splunk.table"
+        },
+        "viz_KC6nYiDM": {
+            "containerOptions": {},
+            "context": {},
+            "dataSources": {
+                "primary": "ds_E9sA92AH"
+            },
+            "options": {},
+            "showLastUpdated": false,
+            "showProgressBar": false,
+            "title": "Domain Account Added",
+            "type": "splunk.table"
+        },
+        "viz_OcsusaWc": {
+            "containerOptions": {},
+            "context": {},
+            "dataSources": {
+                "primary": "ds_I11I9uf4"
+            },
+            "description": "Possible DCSYNC Attack",
+            "options": {},
+            "showLastUpdated": false,
+            "showProgressBar": false,
+            "title": "Domain Replication",
+            "type": "splunk.table"
+        },
+        "viz_QBvwCOq7": {
+            "dataSources": {
+                "primary": "ds_VmY4MT2g"
+            },
+            "title": "Database Connections",
+            "type": "splunk.table"
+        },
+        "viz_QKMRoTrQ": {
+            "dataSources": {
+                "primary": "ds_yGyhxUz0"
+            },
+            "title": "Dropped Packets",
+            "type": "splunk.table"
+        },
+        "viz_Qt4a8ihT": {
+            "dataSources": {
+                "primary": "ds_WxsAfs9K"
+            },
+            "description": "Logs if a service is running or stopped",
+            "title": "Service State changed",
+            "type": "splunk.table"
+        },
+        "viz_RD47WRR1": {
+            "dataSources": {
+                "primary": "ds_gZrzKuNL"
+            },
+            "title": "User Removed from Global Security Group",
+            "type": "splunk.table"
+        },
+        "viz_XZOathsV": {
+            "dataSources": {
+                "primary": "ds_SpR2ixZs"
+            },
+            "title": "Firewall Rule Deleted",
+            "type": "splunk.table"
+        },
+        "viz_ZHOjh8po": {
+            "dataSources": {
+                "primary": "ds_JtH62vNF"
+            },
+            "description": "If AD ports are accessed by an external IP, this could be an indicator of compromise",
+            "title": "Active Directory External Access",
+            "type": "splunk.table"
+        },
+        "viz_ZUJK03RX": {
+            "containerOptions": {},
+            "dataSources": {
+                "primary": "ds_PIr1fq8P"
+            },
+            "description": "For detecting possible PSexec",
+            "showLastUpdated": false,
+            "showProgressBar": false,
+            "title": "Installed Services",
+            "type": "splunk.table"
+        },
+        "viz_c0csQTqb": {
+            "dataSources": {
+                "primary": "ds_LKeM5IT6"
+            },
+            "title": "All Packets",
+            "type": "splunk.table"
+        },
+        "viz_eIVXjt7x": {
+            "dataSources": {
+                "primary": "ds_fvv8TdUf"
+            },
+            "title": "Firewall State Changed",
+            "type": "splunk.table"
+        },
+        "viz_ehQetrTL": {
+            "dataSources": {
+                "primary": "ds_tbVJ2lPQ"
+            },
+            "title": "Domain Account Locked Out",
+            "type": "splunk.table"
+        },
+        "viz_jK7gYPiP": {
+            "dataSources": {
+                "primary": "ds_oMk5wLgs"
+            },
+            "title": "Service Startup Type Changed",
+            "type": "splunk.table"
+        },
+        "viz_ltf2OkeH": {
+            "dataSources": {
+                "primary": "ds_N19HRcnm"
+            },
+            "title": "User Added to Local Security Group",
+            "type": "splunk.table"
+        },
+        "viz_m3q8v2i7": {
+            "dataSources": {
+                "primary": "ds_0agPZKIp"
+            },
+            "title": "User added to Global Security Group",
+            "type": "splunk.table"
+        },
+        "viz_n1zcBlq3": {
+            "dataSources": {
+                "primary": "ds_MhYO280W"
+            },
+            "title": "Firewall rule added",
+            "type": "splunk.table"
+        },
+        "viz_neHqv8ng": {
+            "dataSources": {
+                "primary": "ds_dOUeWXHK"
+            },
+            "title": "Connection Metrics",
+            "type": "splunk.pie"
+        },
+        "viz_oVR2PrqV": {
+            "containerOptions": {},
+            "dataSources": {
+                "primary": "ds_mi6EyZbk"
+            },
+            "description": "Possible Mimikatz detection",
+            "showLastUpdated": false,
+            "showProgressBar": false,
+            "title": "SAM Database Access",
+            "type": "splunk.table"
+        },
+        "viz_p4FSEEsr": {
+            "dataSources": {
+                "primary": "ds_rrxX7gpe"
+            },
+            "description": "This logs failed login by any human user(including the administrator)",
+            "title": "Failed Login (Users)",
+            "type": "splunk.table"
+        },
+        "viz_pqBJpPxJ": {
+            "dataSources": {
+                "primary": "ds_Y05UwiUM"
+            },
+            "title": "Firewall Rule Modified",
+            "type": "splunk.table"
+        },
+        "viz_q1MhBZ7e": {
+            "dataSources": {
+                "primary": "ds_q2DhdxD1"
+            },
+            "title": "Domain Account Unlocked",
+            "type": "splunk.table"
+        },
+        "viz_qxhrlCU9": {
+            "dataSources": {
+                "primary": "ds_2pu8X7SZ"
+            },
+            "title": "User Removed from Universal Security Group",
+            "type": "splunk.table"
+        },
+        "viz_s54ouKeP": {
+            "dataSources": {
+                "primary": "ds_ehmkSFRE"
+            },
+            "title": "Domain Account Disabled",
+            "type": "splunk.table"
+        },
+        "viz_t3jjdFLw": {
+            "dataSources": {
+                "primary": "ds_6HtwyXY0"
+            },
+            "description": "Logs all failed logins, including the machine accounts.",
+            "title": "Failed Login(All)",
+            "type": "splunk.table"
+        },
+        "viz_ujy0BHbK": {
+            "dataSources": {
+                "primary": "ds_lsqxaZtl"
+            },
+            "title": "User Added to Universal Security Group",
+            "type": "splunk.table"
+        },
+        "viz_wTom8pS7": {
+            "dataSources": {
+                "primary": "ds_c0so24tu"
+            },
+            "description": "Logs all succesful logins by the administrator",
+            "title": "Succesful Login(Admin)",
+            "type": "splunk.table"
+        },
+        "viz_x3BNQM0B": {
+            "dataSources": {
+                "primary": "ds_WyJQWlNE"
+            },
+            "description": "For when the windows firewall permits a connection.",
+            "title": "Allowed Conections",
+            "type": "splunk.events"
+        }
+    },
+    "dataSources": {
+        "ds_0agPZKIp": {
+            "name": "Security_Enabled_Global_Group_Members_Added",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4728\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| rename object_attrs as group\n| table time, host, user, group, src_user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_2pu8X7SZ": {
+            "name": "Security_Enabled_Universal_Group_Member_Removed",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4757\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| rename object_attrs as group\n| table time, host, user, group, src_user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_6HtwyXY0": {
+            "name": "All_Failed_Login",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4625\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, Logon_Type, host, user, src\n| sort - time\n"
+            },
+            "type": "ds.search"
+        },
+        "ds_9PHKcs6k": {
+            "name": "Powershell_Script_executed",
+            "options": {
+                "query": "EventCode=400"
+            },
+            "type": "ds.search"
+        },
+        "ds_BE7eYAY9": {
+            "name": "Succesful_Login_All_Users",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4624\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| where NOT like(user, \"%$\") AND NOT user=\"SYSTEM\"\n| table time, Logon_Type, host, user, src\n| sort - time\n"
+            },
+            "type": "ds.search"
+        },
+        "ds_E9sA92AH": {
+            "name": "Added_Domain_Account",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4720\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, user, src_user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_I11I9uf4": {
+            "name": "Domain_Replication",
+            "options": {
+                "query": "EventCode=4662 \"*{1131*\"\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_JtH62vNF": {
+            "name": "AD_External_Access",
+            "options": {
+                "query": "sourcetype=pfirewall (dst_port=88 OR dst_port=3389 OR dst_port=389 OR dst_port=636 OR dst_port=3268 OR dst_port=3269 OR dst_port=445 OR dst_port=135 OR dst_port=137 OR dst_port=138 OR dst_port=139 OR dst_port=53) \nNOT (src_ip=\"192.168.220.*\" OR src_ip=\"fe80::*\" OR src_ip=\"::1\")\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, action, protocol, src_ip, src_port, dst_ip, dst_port\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_KmIYLAly": {
+            "name": "Process_Creation",
+            "options": {
+                "query": "EventCode=4688 AND NOT (parent_process_name=splunkd.exe)\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, src_user, process, parent_process_name\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_L5DklzcC": {
+            "name": "Registry_Editor",
+            "options": {
+                "query": "(EventCode=7036 OR EventCode=4688 OR EventCode=7045)\r\n(\"*RemoteRegistry*\" OR \"*regedit*\" OR \"*reg*\") "
+            },
+            "type": "ds.search"
+        },
+        "ds_LKeM5IT6": {
+            "name": "All_Packets",
+            "options": {
+                "query": "sourcetype=pfirewall\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, action, protocol, src_ip, src_port, dst_ip, dst_port\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_MhYO280W": {
+            "name": "Firewall_Rule_Added",
+            "options": {
+                "query": "EventCode=2004\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, Protocol, Direction, Rule_Name\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_N19HRcnm": {
+            "name": "Add_to_Local_Security_Group",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4732\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| rename object_attrs as group\n| table time, host, user, group, src_user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_PIr1fq8P": {
+            "name": "Service_Installed",
+            "options": {
+                "query": "EventCode=7045\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, service_name, service_path \n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_QJAPtQxB": {
+            "name": "User_Removed_From_Local_Security_Group",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4733\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| rename object_attrs as group\n| table time, host, user, group, src_user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_SpR2ixZs": {
+            "name": "Firewall_Rule_deleted",
+            "options": {
+                "query": "EventCode=2006\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, Rule_Name\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_VmY4MT2g": {
+            "name": "DB_Connections",
+            "options": {
+                "query": "sourcetype=pfirewall AND (3306 OR 5432 OR 5433 OR 27017)\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, action, protocol, src_ip, src_port, dst_ip, dst_port\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_WxsAfs9K": {
+            "name": "Service_State_Change",
+            "options": {
+                "query": "EventCode=7036\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, service_name, Message\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_WyJQWlNE": {
+            "name": "Allowed_Connection",
+            "options": {
+                "query": "EventCode=5156"
+            },
+            "type": "ds.search"
+        },
+        "ds_Y05UwiUM": {
+            "name": "Firewall_Rule_Modified",
+            "options": {
+                "query": "EventCode=2005\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, Protocol, Direction, Rule_Name, Message\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_c0so24tu": {
+            "name": "Succesful_Login_Admin",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4624\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| where match(lower(user), \".*admin.*\")\n| table time, Logon_Type, host, user, src\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_dOUeWXHK": {
+            "name": "Connection_Metrics",
+            "options": {
+                "query": "sourcetype=pfirewall AND action=ALLOW\n| eval status=\"Success\" \n| append \n    [search sourcetype=pfirewall AND action=DROP\n    | eval status=\"Failed\" ] \n| stats count by dst_ip status\n| eventstats sum(count) as total by dst_ip\n| eval percentage=round((count/total) * 100, 2)\n| eval label=dst_ip.\" - \".status.\": \".percentage.\"%\"\n| table label count\n"
+            },
+            "type": "ds.search"
+        },
+        "ds_ehmkSFRE": {
+            "name": "Domain_User_Disabled",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4725\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, user, src_user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_fvv8TdUf": {
+            "name": "Firewall_State_Change",
+            "options": {
+                "query": "EventCode=2003\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, Message\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_gZrzKuNL": {
+            "name": "Removed_From_Global_Group",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4729\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| rename object_attrs as group\n| table time, host, user, group, src_user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_iOasaxk4": {
+            "name": "Failed_Login_Admin",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4625\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| where match(lower(user), \".*admin.*\")\n| table time, Logon_Type, host, user, src\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_jjWxZgcf": {
+            "name": "Deleted_Domain_User",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4726\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, user, src_user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_kXqGbMK5": {
+            "name": "Succesful_Login",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4624\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, Logon_Type, host, user, src\n| sort - time\n"
+            },
+            "type": "ds.search"
+        },
+        "ds_lsqxaZtl": {
+            "name": "Security_Enabled_Universal_Group_Members_Added",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4756\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| rename object_attrs as group\n| table time, host, user, group, src_user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_mi6EyZbk": {
+            "name": "SAM_Access",
+            "options": {
+                "query": "EventCode=4646 \"SAM\" \r\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \r\n| table time, user, host, process_name\r\n| sort - time\r\n"
+            },
+            "type": "ds.search"
+        },
+        "ds_oMk5wLgs": {
+            "name": "Service_Startup_Type_Changed",
+            "options": {
+                "query": "EventCode=7040\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, service_name, Message\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_q2DhdxD1": {
+            "name": "Unlocked_Domain_Account",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4767\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_rrxX7gpe": {
+            "name": "Failed_Login_All_Users",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4625\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| where NOT like(user, \"%$\") AND NOT user=\"SYSTEM\"\n| table time, Logon_Type, host, user, src\n| sort - time\n"
+            },
+            "type": "ds.search"
+        },
+        "ds_tbVJ2lPQ": {
+            "name": "Locked_Domain_Account",
+            "options": {
+                "query": "source=WinEventLog:Security EventCode=4740\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, user\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_yGyhxUz0": {
+            "name": "Dropped_Packets",
+            "options": {
+                "query": "sourcetype=pfirewall AND action=DROP\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| table time, host, protocol, src_ip, src_port, dst_ip, dst_port\n| sort - time"
+            },
+            "type": "ds.search"
+        }
+    },
+    "layout": {
+        "globalInputs": [
+            "input_global_trp"
+        ],
+        "layoutDefinitions": {
+            "layout_1": {
+                "options": {
+                    "height": 960,
+                    "width": 1440
+                },
+                "structure": [
+                    {
+                        "item": "viz_wTom8pS7",
+                        "position": {
+                            "h": 400,
+                            "w": 719,
+                            "x": 0,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_I4kIBhhs",
+                        "position": {
+                            "h": 400,
+                            "w": 719,
+                            "x": 0,
+                            "y": 400
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_3p73Iye3",
+                        "position": {
+                            "h": 400,
+                            "w": 721,
+                            "x": 0,
+                            "y": 800
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_GRkgURuZ",
+                        "position": {
+                            "h": 400,
+                            "w": 721,
+                            "x": 719,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_p4FSEEsr",
+                        "position": {
+                            "h": 400,
+                            "w": 721,
+                            "x": 719,
+                            "y": 400
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_t3jjdFLw",
+                        "position": {
+                            "h": 400,
+                            "w": 719,
+                            "x": 721,
+                            "y": 800
+                        },
+                        "type": "block"
+                    }
+                ],
+                "type": "grid"
+            },
+            "layout_BcGho0Mb": {
+                "structure": [
+                    {
+                        "item": "viz_eIVXjt7x",
+                        "position": {
+                            "h": 400,
+                            "w": 1200,
+                            "x": 0,
+                            "y": 800
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_n1zcBlq3",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 0,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_pqBJpPxJ",
+                        "position": {
+                            "h": 400,
+                            "w": 1200,
+                            "x": 0,
+                            "y": 400
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_XZOathsV",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 599,
+                            "y": 0
+                        },
+                        "type": "block"
+                    }
+                ],
+                "type": "grid"
+            },
+            "layout_HMaH1KgE": {
+                "structure": [
+                    {
+                        "item": "viz_G2vGpuao",
+                        "position": {
+                            "h": 400,
+                            "w": 1200,
+                            "x": 0,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_Qt4a8ihT",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 0,
+                            "y": 400
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_jK7gYPiP",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 599,
+                            "y": 400
+                        },
+                        "type": "block"
+                    }
+                ],
+                "type": "grid"
+            },
+            "layout_JnUt2bcU": {
+                "structure": [
+                    {
+                        "item": "viz_QKMRoTrQ",
+                        "position": {
+                            "h": 400,
+                            "w": 1200,
+                            "x": 0,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_QBvwCOq7",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 0,
+                            "y": 400
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_neHqv8ng",
+                        "position": {
+                            "h": 400,
+                            "w": 1200,
+                            "x": 0,
+                            "y": 800
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_c0csQTqb",
+                        "position": {
+                            "h": 400,
+                            "w": 1200,
+                            "x": 0,
+                            "y": 1200
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_ZHOjh8po",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 599,
+                            "y": 400
+                        },
+                        "type": "block"
+                    }
+                ],
+                "type": "grid"
+            },
+            "layout_KDfP92vl": {
+                "structure": [
+                    {
+                        "item": "viz_m3q8v2i7",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 0,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_ltf2OkeH",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 0,
+                            "y": 400
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_ujy0BHbK",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 0,
+                            "y": 800
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_RD47WRR1",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 599,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_GMoF3UPW",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 599,
+                            "y": 400
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_qxhrlCU9",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 599,
+                            "y": 800
+                        },
+                        "type": "block"
+                    }
+                ],
+                "type": "grid"
+            },
+            "layout_c9CKhszg": {
+                "structure": [
+                    {
+                        "item": "viz_ZUJK03RX",
+                        "position": {
+                            "h": 371,
+                            "w": 601,
+                            "x": 0,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_8qgjjdrD",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 0,
+                            "y": 371
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_x3BNQM0B",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 0,
+                            "y": 771
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_OcsusaWc",
+                        "position": {
+                            "h": 371,
+                            "w": 599,
+                            "x": 601,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_oVR2PrqV",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 601,
+                            "y": 371
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_3aPbB4C0",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 601,
+                            "y": 771
+                        },
+                        "type": "block"
+                    }
+                ],
+                "type": "grid"
+            },
+            "layout_oMCk2WGk": {
+                "structure": [
+                    {
+                        "item": "viz_KC6nYiDM",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 0,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_s54ouKeP",
+                        "position": {
+                            "h": 400,
+                            "w": 1200,
+                            "x": 0,
+                            "y": 400
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_ehQetrTL",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 0,
+                            "y": 800
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_q1MhBZ7e",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 599,
+                            "y": 800
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_8JxMg3hf",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 599,
+                            "y": 0
+                        },
+                        "type": "block"
+                    }
+                ],
+                "type": "grid"
+            }
+        },
+        "options": {},
+        "tabs": {
+            "items": [
+                {
+                    "label": "Security Alerts",
+                    "layoutId": "layout_c9CKhszg"
+                },
+                {
+                    "label": "Authentication",
+                    "layoutId": "layout_1"
+                },
+                {
+                    "label": "User Management",
+                    "layoutId": "layout_oMCk2WGk"
+                },
+                {
+                    "label": "Group Management",
+                    "layoutId": "layout_KDfP92vl"
+                },
+                {
+                    "label": "Firewall",
+                    "layoutId": "layout_BcGho0Mb"
+                },
+                {
+                    "label": "Process/Services",
+                    "layoutId": "layout_HMaH1KgE"
+                },
+                {
+                    "label": "Connections",
+                    "layoutId": "layout_JnUt2bcU"
+                }
+            ]
+        }
+    }
+}

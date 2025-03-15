@@ -1,0 +1,3 @@
+(A|AAAA|CNAME|MX|NS|PTR|TXT|SRV|SOA)[ ]+(?<domain>[^ ]+)$
+
+^(?P<timestamp>\d+\-\d+\-\d+\s+\d+:\d+:\d+)\s+(?P<action>\w+)\s+(?P<protocol>\w+)\s+(?P<src_ip>[^ ]+)\s+(?P<dst_ip>[^ ]+)\s+(?P<src_port>\d+)\s+(?P<dst_port>\d+)

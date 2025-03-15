@@ -1,0 +1,136 @@
+{
+    "title": "DNS",
+    "description": "",
+    "inputs": {
+        "input_global_trp": {
+            "options": {
+                "defaultValue": "-24h@h,now",
+                "token": "global_time"
+            },
+            "title": "Global Time Range",
+            "type": "input.timerange"
+        }
+    },
+    "defaults": {
+        "dataSources": {
+            "ds.search": {
+                "options": {
+                    "queryParameters": {
+                        "earliest": "$global_time.earliest$",
+                        "latest": "$global_time.latest$"
+                    }
+                }
+            }
+        }
+    },
+    "visualizations": {
+        "viz_VJcyv05k": {
+            "containerOptions": {},
+            "dataSources": {
+                "primary": "ds_T6BazJeB"
+            },
+            "options": {
+                "label": "> primary | seriesByName('label')"
+            },
+            "showLastUpdated": false,
+            "showProgressBar": false,
+            "type": "splunk.pie"
+        },
+        "viz_YMyEALk2": {
+            "containerOptions": {},
+            "context": {},
+            "dataSources": {
+                "primary": "ds_XaEo4zfk"
+            },
+            "options": {},
+            "showLastUpdated": false,
+            "showProgressBar": false,
+            "type": "splunk.table"
+        },
+        "viz_vpdteOYE": {
+            "dataSources": {
+                "primary": "ds_lFgpiy1T"
+            },
+            "options": {},
+            "type": "splunk.table"
+        }
+    },
+    "dataSources": {
+        "ds_T6BazJeB": {
+            "name": "DNS_PieChart",
+            "options": {
+                "query": "sourcetype=dns\n| eval readable_domain = replace(domain, \"\\(\\d+\\)\", \".\")\n| eval readable_domain = if(match(readable_domain, \"\\.$\"), substr(readable_domain, 1, len(readable_domain)-1), readable_domain)\n| rename readable_domain as domain\n| stats count by domain\n| eventstats sum(count) as total_count\n| eval percentage = round((count / total_count) * 100, 2)\n| eval label = domain . \" (\" . percentage . \"%)\"\n| sort -count"
+            },
+            "type": "ds.search"
+        },
+        "ds_XaEo4zfk": {
+            "name": "DNS_Metrics",
+            "options": {
+                "query": "sourcetype=dns\n| eval readable_domain = replace(domain, \"\\(\\d+\\)\", \".\")\n| eval readable_domain = if(match(readable_domain, \"\\.$\"), substr(readable_domain, 1, len(readable_domain)-1), readable_domain)\n| rename readable_domain as domain\n| stats count by domain\n| eventstats sum(count) as total_count\n| eval percentage = round((count / total_count) * 100, 2)\n| eval percentage = tostring(percentage, \"commas\") . \"%\"\n| eval label = domain . \" (\" . percentage . \")\"\n| table domain, count, percentage\n| sort -count"
+            },
+            "type": "ds.search"
+        },
+        "ds_lFgpiy1T": {
+            "name": "DNS_Entries",
+            "options": {
+                "query": "sourcetype=dns\n| eval readable_domain = replace(domain, \"\\(\\d+\\)\", \".\")\n| eval readable_domain = if(match(readable_domain, \"\\.$\"), substr(readable_domain, 1, len(readable_domain)-1), readable_domain)\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") \n| rename readable_domain as domain\n| table time, host, domain\n| sort - time"
+            },
+            "type": "ds.search"
+        }
+    },
+    "layout": {
+        "globalInputs": [
+            "input_global_trp"
+        ],
+        "layoutDefinitions": {
+            "layout_1": {
+                "options": {
+                    "height": 960,
+                    "width": 1440
+                },
+                "structure": [
+                    {
+                        "item": "viz_YMyEALk2",
+                        "position": {
+                            "h": 400,
+                            "w": 719,
+                            "x": 0,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_VJcyv05k",
+                        "position": {
+                            "h": 400,
+                            "w": 721,
+                            "x": 719,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_vpdteOYE",
+                        "position": {
+                            "h": 400,
+                            "w": 1440,
+                            "x": 0,
+                            "y": 400
+                        },
+                        "type": "block"
+                    }
+                ],
+                "type": "grid"
+            }
+        },
+        "options": {},
+        "tabs": {
+            "items": [
+                {
+                    "label": "New tab",
+                    "layoutId": "layout_1"
+                }
+            ]
+        }
+    }
+}

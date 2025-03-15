@@ -1,0 +1,293 @@
+{
+    "title": "Linux",
+    "description": "Linux machines",
+    "inputs": {
+        "input_global_trp": {
+            "options": {
+                "defaultValue": "-24h@h,now",
+                "token": "global_time"
+            },
+            "title": "Global Time Range",
+            "type": "input.timerange"
+        }
+    },
+    "defaults": {
+        "dataSources": {
+            "ds.search": {
+                "options": {
+                    "queryParameters": {
+                        "earliest": "$global_time.earliest$",
+                        "latest": "$global_time.latest$"
+                    }
+                }
+            }
+        }
+    },
+    "visualizations": {
+        "viz_04JwmY5T": {
+            "dataSources": {
+                "primary": "ds_XZWKBaai"
+            },
+            "title": "Falco Warnings",
+            "type": "splunk.table"
+        },
+        "viz_GYMQBzyY": {
+            "dataSources": {
+                "primary": "ds_xNxkAsuw"
+            },
+            "title": "Public Key Events",
+            "type": "splunk.events"
+        },
+        "viz_NxzXyI5a": {
+            "containerOptions": {
+                "visibility": {}
+            },
+            "dataSources": {
+                "primary": "ds_xYYv5aHQ"
+            },
+            "title": "Succesful SSH",
+            "type": "splunk.events"
+        },
+        "viz_QmPJpBkp": {
+            "dataSources": {
+                "primary": "ds_VZUuXefN"
+            },
+            "title": "Falco Messages",
+            "type": "splunk.table"
+        },
+        "viz_WC0jMdi9": {
+            "dataSources": {
+                "primary": "ds_jaqGjGQC"
+            },
+            "title": "Successful vs. Failed SSH Logins (All Hosts)",
+            "type": "splunk.pie"
+        },
+        "viz_YMQS2QYh": {
+            "containerOptions": {},
+            "dataSources": {
+                "primary": "ds_Ik6C1adD"
+            },
+            "showLastUpdated": false,
+            "showProgressBar": false,
+            "title": "Falco Alerts",
+            "type": "splunk.table"
+        },
+        "viz_dB8WpCmt": {
+            "dataSources": {
+                "primary": "ds_nggkowRj"
+            },
+            "title": "Falco Info",
+            "type": "splunk.table"
+        },
+        "viz_mJphXj3T": {
+            "dataSources": {
+                "primary": "ds_v6YVc8tL"
+            },
+            "title": "Falco Notice",
+            "type": "splunk.table"
+        },
+        "viz_yEqGuqA8": {
+            "dataSources": {
+                "primary": "ds_Z1nGMORw"
+            },
+            "title": "Failed SSH",
+            "type": "splunk.events"
+        }
+    },
+    "dataSources": {
+        "ds_HhRGFaDQ": {
+            "name": "All Linux",
+            "options": {
+                "query": "sourcetype=\"Linux\" "
+            },
+            "type": "ds.search"
+        },
+        "ds_Ik6C1adD": {
+            "name": "Falco_Alerts",
+            "options": {
+                "query": "SYSTEMD_UNIT=\"falco.service\" AND \"Alert\"\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\")\n| rex field=_raw \"^(?<timestamp>\\d{2}:\\d{2}:\\d{2}\\.\\d+): (?<Alert>.*)\"\n| table time, host, Alert\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_VZUuXefN": {
+            "name": "All_Falco",
+            "options": {
+                "query": "SYSTEMD_UNIT=\"falco.service\" \n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\")\n| rename _raw as message\n| table time, host, message\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_XZWKBaai": {
+            "name": "Falco_Warnings",
+            "options": {
+                "query": "SYSTEMD_UNIT=\"falco.service\" AND \"Warning\"\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\")\n| rename _raw as Warning\n| table time, host, Warning\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_Z1nGMORw": {
+            "name": "failed_ssh_linux",
+            "options": {
+                "query": "(SYSTEMD_UNIT=\"sshd.service\" OR SYSTEMD_UNIT=\"ssh.service\") AND \"Failed password\""
+            },
+            "type": "ds.search"
+        },
+        "ds_jaqGjGQC": {
+            "name": "ssh_ratio",
+            "options": {
+                "query": "(SYSTEMD_UNIT=\"sshd.service\" OR SYSTEMD_UNIT=\"ssh.service\") AND \"Accepted password\" \n| eval status=\"Success\" \n| append \n    [search (SYSTEMD_UNIT=\"sshd.service\" OR SYSTEMD_UNIT=\"ssh.service\") AND \"Failed password\" \n    | eval status=\"Failed\" ] \n| stats count by host status\n| eventstats sum(count) as total by host\n| eval percentage=round((count/total) * 100, 2)\n| eval label=host.\" - \".status.\": \".percentage.\"%\"\n| table label count"
+            },
+            "type": "ds.search"
+        },
+        "ds_nggkowRj": {
+            "name": "Falco_Info",
+            "options": {
+                "query": "SYSTEMD_UNIT=\"falco.service\" AND \"Info\"\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\")\n| rename _raw as Info\n| table time, host, Info \n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_v6YVc8tL": {
+            "name": "Falco_Notice",
+            "options": {
+                "query": "SYSTEMD_UNIT=\"falco.service\" AND \"Notice\"\n| eval time=strftime(_time, \"%Y-%m-%d %H:%M:%S\")\n| rename _raw as Notice\n| table time, host, Notice\n| sort - time"
+            },
+            "type": "ds.search"
+        },
+        "ds_xNxkAsuw": {
+            "name": "ssh_publickey",
+            "options": {
+                "query": "(SYSTEMD_UNIT=\"sshd.service\" OR SYSTEMD_UNIT=\"ssh.service\") AND \"publickey\""
+            },
+            "type": "ds.search"
+        },
+        "ds_xYYv5aHQ": {
+            "name": "succesful_ssh_Linux",
+            "options": {
+                "query": "(SYSTEMD_UNIT=\"sshd.service\" OR SYSTEMD_UNIT=\"ssh.service\") AND \"Accepted password\""
+            },
+            "type": "ds.search"
+        }
+    },
+    "layout": {
+        "globalInputs": [
+            "input_global_trp"
+        ],
+        "layoutDefinitions": {
+            "layout_1": {
+                "options": {
+                    "height": 960,
+                    "width": 1440
+                },
+                "structure": [
+                    {
+                        "item": "viz_NxzXyI5a",
+                        "position": {
+                            "h": 400,
+                            "w": 719,
+                            "x": 0,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_GYMQBzyY",
+                        "position": {
+                            "h": 400,
+                            "w": 719,
+                            "x": 0,
+                            "y": 400
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_yEqGuqA8",
+                        "position": {
+                            "h": 400,
+                            "w": 721,
+                            "x": 719,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_WC0jMdi9",
+                        "position": {
+                            "h": 400,
+                            "w": 721,
+                            "x": 719,
+                            "y": 400
+                        },
+                        "type": "block"
+                    }
+                ],
+                "type": "grid"
+            },
+            "layout_v3lxBj4s": {
+                "structure": [
+                    {
+                        "item": "viz_YMQS2QYh",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 0,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_mJphXj3T",
+                        "position": {
+                            "h": 400,
+                            "w": 599,
+                            "x": 0,
+                            "y": 400
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_QmPJpBkp",
+                        "position": {
+                            "h": 400,
+                            "w": 1200,
+                            "x": 0,
+                            "y": 800
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_04JwmY5T",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 599,
+                            "y": 0
+                        },
+                        "type": "block"
+                    },
+                    {
+                        "item": "viz_dB8WpCmt",
+                        "position": {
+                            "h": 400,
+                            "w": 601,
+                            "x": 599,
+                            "y": 400
+                        },
+                        "type": "block"
+                    }
+                ],
+                "type": "grid"
+            }
+        },
+        "options": {},
+        "tabs": {
+            "items": [
+                {
+                    "label": "Falco Dashboard",
+                    "layoutId": "layout_v3lxBj4s"
+                },
+                {
+                    "label": "Authentication",
+                    "layoutId": "layout_1"
+                }
+            ]
+        }
+    }
+}
