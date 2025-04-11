@@ -88,7 +88,6 @@ else {
     Write-Host "$hostname is a Domain Controller..."
 }
 
-
 # Domain-User Passwords
 if (Get-WmiObject -Query "select * from Win32_OperatingSystem where ProductType='2'") {
     function Generate-RandomPassword {
@@ -260,16 +259,6 @@ if (Get-WmiObject -Query "select * from Win32_OperatingSystem where ProductType=
     }
 }
 
-
-# Delete Admin$ Share
-try {
-    net share ADMIN$ /delete
-    Write-Host "ADMIN$ share deleted successfully."
-} catch {
-    Write-Error "Failed to delete ADMIN$ share: $_"
-}
-
-
 # PHP
 $ConfigFiles = Get-ChildItem -Path "C:\xampp", "C:\inetpub" -Filter "php.ini" -Recurse -ErrorAction SilentlyContinue |
                Select-Object -ExpandProperty FullName
@@ -329,66 +318,7 @@ else {
 }
 
 
-# Files Backdoor
-$fileLogFile = "C:\Users\Administrator\Documents\file_log.txt"
-
-# Create the log file if it doesn't exist (this ensures you have a file to write to)
-if (!(Test-Path $fileLogFile)) {
-    New-Item -Path $fileLogFile -ItemType File -Force | Out-Null
-}
-
-$files = @(
-    "C:\Windows\System32\utilman.exe",
-    "C:\Windows\System32\sethc.exe",
-    "C:\Windows\System32\osk.exe",
-    "C:\Windows\System32\narrator.exe",
-    "C:\Windows\System32\magnify.exe"
-)
-
-foreach ($file in $files) {
-    if (Test-Path $file) {        
-        $directory = Split-Path $file -Parent
-        $randomString = -join ((65..90) + (97..122) | Get-Random -Count 15 | ForEach-Object { [char]$_ })
-        $newFilename = "$randomString.exe"
-        $newPath = Join-Path $directory $newFilename
-        
-        $takeownResult = takeown.exe /F $file /A
-        if ($LASTEXITCODE -ne 0) {
-            continue
-        }
-        
-        $icaclsResult = icacls.exe $file /grant Administrators:F
-        if ($LASTEXITCODE -ne 0) {
-            continue
-        }
-                
-        try {
-            $acl = Get-Acl $file
-            $owner = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")
-            $acl.SetOwner($owner)
-            Set-Acl -Path $file -AclObject $acl -ErrorAction SilentlyContinue
-            
-            Rename-Item -Path $file -NewName $newFilename -Force -ErrorAction Stop
-            Add-Content -Path $fileLogFile -Value "Renamed '$file' to '$newFilename'"
-            Write-Output "Renamed '$file' to '$newFilename'"
-        }
-        catch {
-            try {
-                $moveCommand = "cmd.exe /c move /Y `"$file`" `"$newPath`""
-                $moveResult = Invoke-Expression $moveCommand
-                Add-Content -Path $fileLogFile -Value "Renamed '$file' to '$newFilename'"
-                Write-Output "Moved '$file' to '$newFilename'"
-            }
-            catch {
-                continue
-            }
-        }
-    }
-    else {
-        continue
-    }
-}
-
+# Files Permissions
 takeown /F "C:\Windows\System32\cmd.exe" /A
 icacls "C:\Windows\System32\cmd.exe" /reset
 
