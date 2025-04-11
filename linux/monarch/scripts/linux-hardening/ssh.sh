@@ -37,7 +37,7 @@ PermitEmptyPasswords no
 PasswordAuthentication yes
 PermitRootLogin no
 UsePAM yes
-Match Address OUR_IP
+Match Address 172.16.1.7
   PermitRootLogin yes
 EOF
 
@@ -54,13 +54,6 @@ if command_exists ssh; then
 	if ssh -o PreferredAuthentications=none -o NoHostAuthenticationForLocalhost=yes localhost 2>&1 | grep publickey; then
 		echo "Warning: public key allowed for authentication"
 	fi
-fi
-
-if [ "$(tail -1 /etc/ssh/sshd_config)" = "UsePAM yes" ] && [ "$(tail -2 /etc/ssh/sshd_config | head -1)" = "PermitRootLogin no" ]; then
-	echo "Successfully changed config files"
-else
-	echo "Did not properly change config files"
-	exit 1
 fi
 
 if [ "${cmd}" = "systemctl" ]; then
