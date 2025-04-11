@@ -116,6 +116,11 @@ cat <<EOF > /etc/falco/rules.d/rules.yaml
   output: "Network configuration access detected: %fd.name (Command: %proc.cmdline) by user: %user.name"
   priority: WARNING
   tags: [network, security]
+- rule: Load BPF Program
+  desc: Detect attempts to load a BPF program into the kernel
+  condition: evt.type=bpf and evt.dir=< and not proc.name in (ld.so, systemd, containerd)
+  output: "BPF program loaded (user=%user.name command=%proc.cmdline pid=%proc.pid)"
+  priority: WARNING
 EOF
 
 if command_exists systemctl; then
