@@ -159,6 +159,31 @@ else
 fi
 sep
 
+# Backup sudo stuff
+if [ -f "/etc/sudoers" ] || [ -f "/etc/sudo.conf" ]; then
+    echo_if_not_quiet "Backing up sudo..."
+    cp /etc/sudoers "$backup_dir/sudoers.bak"
+    cp -r /etc/sudoers.d "$backup_dir/sudoers.d.bak/"
+    if [ $? -eq 0 ]; then
+        chmod 600 "$backup_dir/sudoers.bak"
+        echo_if_not_quiet "Done backing up sudo."
+    else
+        echo "[!] Error: Failed to create backup for sudo."
+    fi
+fi
+
+# Backup doas stuff
+if [ -f "/etc/doas.conf" ]; then
+    echo_if_not_quiet "Backing up doas..."
+    cp /etc/sudoers "$backup_dir/doas.conf.bak"
+    if [ $? -eq 0 ]; then
+        chmod 600 "$backup_dir/doas.conf.bak"
+        echo_if_not_quiet "Done backing up doas."
+    else
+        echo "[!] Error: Failed to create backup for doas."
+    fi
+fi
+
 # backup /etc/pam.d if it is non-empty
 pam_d_dir="/etc/pam.d"
 if [ -d "$pam_d_dir" ] && [ "$(ls -A "$pam_d_dir")" ]; then

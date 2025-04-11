@@ -5,3 +5,4 @@ __pycache__
 .monarch_history
 conf.json
 passwords.db
+.env

@@ -100,9 +100,10 @@ def run_script_across_hosts(script_path, args=[], hosts=[]):
         logger.info(
             f"Ran {script_path} on {run_result.host.name()}: {run_result.stdout}"
         )
-        logger.error(
-            f"Ran {script_path} on {run_result.host.name()}: {run_result.stderr}"
-        )
+        if len(run_result.stderr) > 0:
+            logger.error(
+                f"Ran {script_path} on {run_result.host.name()}: {run_result.stderr}"
+            )
     return run_results
 
 
@@ -115,6 +116,7 @@ def run_initial_base(host=None):
     firewall = must_get_script("firewall_template.sh")
     ident = must_get_script("ident.sh")
     local_pass = must_get_script("pass.sh")
+    final = must_get_script("final.sh")
 
     logger.info("Running PHP hardening")
     run_script_across_hosts(php, hosts=hosts)
@@ -140,6 +142,9 @@ def run_initial_base(host=None):
 
     logger.info("Running ident")
     run_script_across_hosts(ident, hosts=hosts)
+
+    logger.info("Final")
+    run_script_across_hosts(final, hosts=hosts)
 
 
 def list_hosts():
