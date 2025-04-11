@@ -3,13 +3,11 @@
 # I love chattr
 
 nexec() {
-  if command -v "$1"; then
-    chmod 0400 $(command -v "$1")
-  fi
+	if command -v "$1"; then
+		chmod 0400 $(command -v "$1")
+	fi
 }
 
-chattr +i /etc/passwd
-chattr +i /etc/shadow
 chattr -R +i /etc/pam.d
 find /lib /usr/lib /usr/lib64 -name "pam_*.so" -exec chattr +i {} \;
 chattr +i /etc/ssh/sshd_config
@@ -22,7 +20,7 @@ nexec pkexec
 nexec sudoedit
 nexec visudo
 
-cat <<EOF >> /etc/sysctl.conf
+cat <<EOF >>/etc/sysctl.conf
 
 kernel.unprivileged_bpf_disabled=1
 kernel.modules_disabled=1
